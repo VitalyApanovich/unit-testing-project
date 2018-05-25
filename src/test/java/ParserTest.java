@@ -1,9 +1,4 @@
-package test;
-
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import parser.JsonParser;
@@ -44,6 +39,7 @@ class ParserTest {
         assertEquals(Cart.class, jpClass.readFromFile(file).getClass());
     }
 
+    @Tag("unit")
     @Disabled
     @Test
     void readFromFileExpectsFileClassTest() {
@@ -57,12 +53,14 @@ class ParserTest {
         );
     }
 
+    @Tag("unit")
     @Test
     void writeToFileReturnsExpectedCartNameTest() {
         jpClass.writeToFile(new Cart(cartName));
         assertEquals(cartName, jpClass.readFromFile(file).getCartName());
     }
 
+    @Tag("unit")
     @ParameterizedTest()
     @ValueSource(strings = { ":", "<", ">", "?", "*"})
     void writeToFileHandlesReservedCharactersGracefullyTest(String inputParam) {

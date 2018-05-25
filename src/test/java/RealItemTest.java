@@ -1,6 +1,5 @@
-package test;
-
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import shop.RealItem;
 
@@ -17,6 +16,7 @@ class RealItemTest {
         car = getRealItemWithValues(new RealItem(), weight, carName, price);
     }
 
+    @Tag("Business")
     @Test
     void toStringMethodContainsWeightInfoTest() {
         assertTrue(car.toString().contains("Weight: " + Integer.toString(weight)));
