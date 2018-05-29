@@ -13,14 +13,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ParserTest {
-    private String cartName = "test";
+    private static final String CART_NAME = "test";
     private JsonParser jpClass;
     private File file;
 
     @BeforeEach
-    void beforeMethod(){
+    void beforeMethod() {
         jpClass = new JsonParser();
-        String pathName = "src/main/resources/" + cartName + ".json";
+        String pathName = "src/main/resources/" + CART_NAME + ".json";
         file = new File(pathName);
     }
 
@@ -28,14 +28,14 @@ class ParserTest {
     void afterMethod() {
         try {
             java.nio.file.Files.deleteIfExists(Paths.get(file.getPath()));
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @Test
     void readFromFileReturnsCartClassTest() {
-        jpClass.writeToFile(new Cart(cartName));
+        jpClass.writeToFile(new Cart(CART_NAME));
         assertEquals(Cart.class, jpClass.readFromFile(file).getClass());
     }
 
@@ -43,8 +43,8 @@ class ParserTest {
     @Disabled
     @Test
     void readFromFileExpectsFileClassTest() {
-        String invalidPth1 =  "invalid path";
-        String invalidPth2 =  "";
+        String invalidPth1 = "invalid path";
+        String invalidPth2 = "";
         Throwable throwable1 = assertThrows(parser.NoSuchFileException.class, () -> jpClass.readFromFile(new File(invalidPth1)));
         Throwable throwable2 = assertThrows(parser.NoSuchFileException.class, () -> jpClass.readFromFile(new File(invalidPth2)));
         assertAll(
@@ -56,13 +56,13 @@ class ParserTest {
     @Tag("unit")
     @Test
     void writeToFileReturnsExpectedCartNameTest() {
-        jpClass.writeToFile(new Cart(cartName));
-        assertEquals(cartName, jpClass.readFromFile(file).getCartName());
+        jpClass.writeToFile(new Cart(CART_NAME));
+        assertEquals(CART_NAME, jpClass.readFromFile(file).getCartName());
     }
 
     @Tag("unit")
     @ParameterizedTest()
-    @ValueSource(strings = { ":", "<", ">", "?", "*"})
+    @ValueSource(strings = {":", "<", ">", "?", "*"})
     void writeToFileHandlesReservedCharactersGracefullyTest(String inputParam) {
         jpClass.writeToFile(new Cart(inputParam));
         assertThrows(parser.NoSuchFileException.class, () -> jpClass.readFromFile(new File("src/main/resources/" + inputParam + ".json")));
