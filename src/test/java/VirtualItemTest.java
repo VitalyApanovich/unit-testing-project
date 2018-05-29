@@ -1,6 +1,5 @@
-package test;
-
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import shop.VirtualItem;
 
@@ -17,6 +16,7 @@ class VirtualItemTest {
         disk = getVirtualItemWithValues(new VirtualItem(), diskName, price, sizeOnDisk);
     }
 
+    @Tag("Business")
     @Test
     void toStringMethodContainsSizeInfoTest() {
         assertTrue(disk.toString().contains("Size on disk: " + Integer.toString(sizeOnDisk)));
